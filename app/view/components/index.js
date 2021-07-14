@@ -32,4 +32,7 @@ module.exports = {
   get StyledText() {
     return require('./StyledText').default;
   },
+  get TabIcon() {
+    return require('./TabIcon').default;
+  }
 };
