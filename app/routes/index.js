@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {useTheme} from 'react-native-paper';
 
-import HomeScreen from 'view/pages/home';
+import Tabs from "./tabs";
 
 const Stack = createStackNavigator();
 
@@ -15,9 +15,17 @@ const Router = () => {
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+            initialRouteName={'MainLayout'}
+        >
+            <Stack.Screen
+                name="MainLayout"
+                component={Tabs}
+            />
+        </Stack.Navigator>
     </NavigationContainer>
   );
 };

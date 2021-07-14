@@ -4,12 +4,12 @@ import {
     Text
 } from 'react-native';
 
-const Home = () => {
+const Market = () => {
     return (
         <View>
-            <Text>Home</Text>
+            <Text>Market</Text>
         </View>
     )
 }
 
-export default Home;
+export default Market;
