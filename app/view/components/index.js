@@ -34,5 +34,8 @@ module.exports = {
   },
   get TabIcon() {
     return require('./TabIcon').default;
-  }
+  },
+  get IconTextButton() {
+    return require('./IconTextButton').default;
+  },
 };
