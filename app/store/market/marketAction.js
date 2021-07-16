@@ -23,7 +23,7 @@ export const getHoldingsFailure = error => ({
 
 export function getHoldings(
   holdings = [],
-  currency = '',
+  currency = 'usd',
   orderBy = 'market_cap_desc',
   sparkline = true,
   priceChangePerc = '7d',
@@ -37,7 +37,7 @@ export function getHoldings(
       .map(item => {
         return item.id;
       })
-      .join('');
+      .join(',');
     let apiUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}&ids=${ids}`;
 
     return axios({
@@ -48,6 +48,7 @@ export function getHoldings(
       },
     })
       .then(response => {
+        console.log('response 1', response);
         if (response.status === 200) {
           let myHoldings = response.data.map(item => {
             let coin = holdings.find(a => a.id === item.id);
@@ -55,7 +56,7 @@ export function getHoldings(
             //Price from 7 days ago
             let price7d =
               item.current_price /
-              (1 + item.price_change_perecentage_7d_in_currency * 0.01);
+              (1 + item.price_change_percentage_7d_in_currency * 0.01);
 
             return {
               id: item.id,
@@ -65,8 +66,8 @@ export function getHoldings(
               current_price: item.current_price,
               qty: coin.qty,
               total: coin.qty * item.current_price,
-              price_change_perecentage_7d_in_currency:
-                item.price_change_perecentage_7d_in_currency,
+              price_change_percentage_7d_in_currency:
+                item.price_change_percentage_7d_in_currency,
               holding_value_change_7d:
                 (item.current_price - price7d) * coin.qty,
               sparkline_in_7d: {
@@ -123,6 +124,7 @@ export function getCoinMarket(
       },
     })
       .then(response => {
+        console.log('response 2', response);
         if (response.status === 200) {
           dispatch(getCoinMarketSuccess(response.data));
         } else {
