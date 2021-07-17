@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [
     ['@babel/plugin-proposal-optional-chaining'],
+    ['react-native-reanimated/plugin'],
     [
       'module-resolver',
       {

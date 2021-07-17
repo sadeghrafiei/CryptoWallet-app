@@ -4,11 +4,11 @@ import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
 
 import MainLayout from '../MainLayout';
-
 import {getHoldings, getCoinMarket} from 'store/market/marketAction';
 import {holdings} from 'assets/constants/dummy';
-import {COLORS, SIZES} from 'assets/constants';
+import {COLORS, SIZES, icons} from 'assets/constants';
 import BalanceInfo from '../../components/BalanceInfo';
+import IconTextButton from '../../components/IconTextButton';
 
 const Home = ({getHoldings, getCoinMarket, myHoldings, coins}) => {
   useFocusEffect(
@@ -40,6 +40,34 @@ const Home = ({getHoldings, getCoinMarket, myHoldings, coins}) => {
           changePct={percChange}
           containerStyle={{marginTop: 50}}
         />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 38,
+            marginBottom: -15,
+            paddingHorizontal: SIZES.radius,
+          }}>
+          <IconTextButton
+            label={'Transfer'}
+            icon={icons.send}
+            containerStyle={{
+              flex: 1,
+              height: 40,
+              marginRight: SIZES.radius,
+            }}
+            onPress={() => console.log('Transfer')}
+          />
+          <IconTextButton
+            label={'Withdraw'}
+            icon={icons.withdraw}
+            containerStyle={{
+              flex: 1,
+              height: 40,
+            }}
+            onPress={() => console.log('withdraw')}
+          />
+        </View>
       </View>
     );
   }
@@ -48,6 +76,11 @@ const Home = ({getHoldings, getCoinMarket, myHoldings, coins}) => {
     <MainLayout>
       <View style={{flex: 1, backgroundColor: COLORS.black}}>
         {renderWalletInfoSection()}
+
+        <Chart
+          containerStyle={{marginTop: SIZES.padding * 2}}
+          chartPrices={coins[0]?.sparkline_in_7d?.price}
+        />
       </View>
     </MainLayout>
   );
