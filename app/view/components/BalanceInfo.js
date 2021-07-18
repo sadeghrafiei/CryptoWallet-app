@@ -9,7 +9,7 @@ const BalanceInfo = ({title, displayAmount, changePct, containerStyle}) => {
       <Text style={{color: COLORS.white, ...FONTS.h3}}>{title}</Text>
       <View
         style={{
-          flexDirection: 'row-reverse',
+          flexDirection: 'row',
           alignItems: 'flex-end',
         }}>
         <Text style={{...FONTS.h3, color: COLORS.lightGray3}}>$</Text>
@@ -19,7 +19,7 @@ const BalanceInfo = ({title, displayAmount, changePct, containerStyle}) => {
         </Text>
         <Text style={{color: COLORS.lightGray3, ...FONTS.h3}}>USD</Text>
       </View>
-      <View style={{flexDirection: 'row-reverse', alignItems: 'flex-end'}}>
+      <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
         {changePct !== 0 && (
           <Image
             source={icons.upArrow}
@@ -38,7 +38,7 @@ const BalanceInfo = ({title, displayAmount, changePct, containerStyle}) => {
             marginLeft: SIZES.base,
             alignSelf: 'flex-end',
             color:
-              changePct == 0
+              changePct === 0
                 ? COLORS.lightGray3
                 : changePct > 0
                 ? COLORS.lightGreen
