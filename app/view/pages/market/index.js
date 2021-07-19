@@ -1,4 +1,10 @@
-import React, {createRef, useEffect, useRef, useState} from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   View,
   Text,
@@ -49,13 +55,21 @@ const TabIndicator = ({measureLayout, scrollX}) => {
 };
 
 const Market = ({coins, getCoinMarket}) => {
+  const [onClick, setOnClick] = useState(false);
   useEffect(() => {
     getCoinMarket();
   }, []);
 
   const scrollX = useRef(new Animated.Value(0)).current;
+  const marketTabScrollViewRef = useRef();
 
-  const Tabs = ({scrollX}) => {
+  const onMarketTabPress = useCallback(marketTabIndex => {
+    marketTabScrollViewRef?.current?.scrollToOffset({
+      offset: marketTabIndex * SIZES.width,
+    });
+  });
+
+  const Tabs = ({scrollX, onMarketTabPress}) => {
     const [measureLayout, setMeasureLayout] = useState([]);
     const containerRef = useRef();
 
@@ -89,7 +103,12 @@ const Market = ({coins, getCoinMarket}) => {
         )}
         {marketTabs.map((item, index) => {
           return (
-            <TouchableOpacity key={`MarketTab-${index}`} style={{flex: 1}}>
+            <TouchableOpacity
+              onPress={() => {
+                onMarketTabPress(index);
+              }}
+              key={`MarketTab-${index}`}
+              style={{flex: 1}}>
               <View
                 ref={item.ref}
                 style={{
@@ -118,7 +137,7 @@ const Market = ({coins, getCoinMarket}) => {
           borderRadius: SIZES.radius,
           backgroundColor: COLORS.gray,
         }}>
-        <Tabs scrollX={scrollX} />
+        <Tabs onMarketTabPress={onMarketTabPress} scrollX={scrollX} />
       </View>
     );
   }
@@ -145,6 +164,7 @@ const Market = ({coins, getCoinMarket}) => {
   function renderList() {
     return (
       <Animated.FlatList
+        ref={marketTabScrollViewRef}
         data={marketTabs}
         contentContainerStyle={{
           marginTop: SIZES.padding,
