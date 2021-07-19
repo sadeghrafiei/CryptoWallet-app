@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
@@ -11,6 +11,7 @@ import {SIZES, COLORS, FONTS, icons} from 'assets/constants';
 import {holdings} from 'assets/constants/dummy';
 
 const Portfolio = ({getHoldings, myHoldings}) => {
+  const [selectedCoin, setSelectedCoin] = useState(null);
   useFocusEffect(
     useCallback(() => {
       getHoldings(holdings);
@@ -63,7 +64,11 @@ const Portfolio = ({getHoldings, myHoldings}) => {
           containerStyle={{
             marginTop: SIZES.radius,
           }}
-          chartPrices={myHoldings[0]?.sparkline_in_7d?.value}
+          chartPrices={
+            selectedCoin
+              ? selectedCoin?.sparkline_in_7d.value
+              : myHoldings[0]?.sparkline_in_7d?.value
+          }
         />
         <FlatList
           data={myHoldings}
@@ -75,7 +80,9 @@ const Portfolio = ({getHoldings, myHoldings}) => {
                 ? COLORS.lightGreen
                 : COLORS.red;
             return (
-              <TouchableOpacity style={{flexDirection: 'row', height: 55}}>
+              <TouchableOpacity
+                onPress={() => setSelectedCoin(item)}
+                style={{flexDirection: 'row', height: 55}}>
                 <View
                   style={{
                     flex: 1,
